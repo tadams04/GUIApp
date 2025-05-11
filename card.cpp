@@ -17,12 +17,17 @@ QString Card::getSuit() const
 
 QString Card::getName() const
 {
-    switch (m_value) {
-    case 1:  return QStringLiteral(u"A%1").arg(getSuit());
-    case 11: return QStringLiteral(u"J%1").arg(getSuit());
-    case 12: return QStringLiteral(u"Q%1").arg(getSuit());
-    case 13: return QStringLiteral(u"K%1").arg(getSuit());
-    default: return QStringLiteral(u"%1%2").arg(m_value).arg(getSuit());
+    // Can rewrite using swithc later
+    if (m_value == 1) {
+        return QStringLiteral(u"A%1").arg(getSuit());
+    } else if (m_value == 11) {
+        return QStringLiteral(u"J%1").arg(getSuit());
+    } else if (m_value == 12) {
+        return QStringLiteral(u"Q%1").arg(getSuit());
+    } else if (m_value == 13) {
+        return QStringLiteral(u"K%1").arg(getSuit());
+    } else {
+        return QStringLiteral(u"%1%2").arg(m_value).arg(getSuit());
     }
 }
 
