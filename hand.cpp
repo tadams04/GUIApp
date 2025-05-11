@@ -64,8 +64,33 @@ void Hand::sortGroup()
 }
 
 
-QString Hand::getBest() const {
-    return QString("TODO");
+QString Hand::getBest() const
+{
+    bool flush = isFlush();
+    bool straight = isStraight();
+
+    // For straight-flush branch we need the highest card value
+    int high = 0;
+    int low = 15;
+    for (const Card& c : m_cards) {
+        high = std::max(high, c.getValue());
+        low  = std::min(low,  c.getValue());
+    }
+
+    if (straight && flush)
+    {
+        // Royal Flush if sequence ends in Ace (14) and starts at 10
+        bool isRoyal = (high == 14 && low == 10);
+        return isRoyal ? "ryfl" : "stfl";
+    }
+
+    // Look at duplicate structure
+    auto dup = classifyDuplicates();
+    if (!dup.first.isEmpty()) return dup.first;
+
+    if (flush) return "flsh";
+    if (straight) return "strt";
+    return "high";
 }
 
 
@@ -94,19 +119,62 @@ bool Hand::isFlush() const
 
 bool Hand::isStraight() const
 {
-    // Assumes sortValue() has been called
-    for (int i = 1; i < 5; ++i) {
-        if (m_cards[i].getValue() != m_cards[i-1].getValue()+1) return false;
-    }
-    return true;
+    // Make a local copy of the five values and sort them
+    int straightCheck[5];
+    for (int i = 0; i < 5; ++i) straightCheck[i] = m_cards[i].getValue();
+    std::sort(straightCheck, straightCheck + 5);
+
+    // Normal consecutistraightChecke test (works for 10-J-Q-K-A too)
+    bool regular = true;
+    for (int i = 1; i < 5; ++i)
+        if (straightCheck[i] != straightCheck[0] + i) regular = false;
+    if (regular) return true;
+
+    // Hard check for wraparound
+    bool wraparound = straightCheck[0] == 2 && straightCheck[1] == 3 && straightCheck[2] == 4 && straightCheck[3] == 5 && straightCheck[4] == 14;
+    return wraparound;
 }
+
 
 
 std::pair<QString,int> Hand::classifyDuplicates() const
 {
-    // Build frequency map and find highest grouping
+    // Build frequency map  value → count
     std::map<int,int> freq;
-    for (auto& c : m_cards) freq[c.getValue()]++;
-    // TODO: analyze freq to determine category and key value
-    return {"pair", 0}; // stub
+    for (const Card& c : m_cards)
+        ++freq[c.getValue()];
+
+    // Gather stats
+    int numPairs   = 0;
+    int threeKind  = 0;
+    int fourKind   = 0;
+    int highPair   = 0;     // highest value that forms a pair
+    int tripValue  = 0;     // value that forms the trip
+    int quadValue  = 0;     // value that forms the quad
+
+    for (auto [val, count] : freq)
+    {
+        if (count == 4)
+        {
+            fourKind = val;
+        }
+        else if (count == 3)
+        {
+            threeKind = val;
+        }
+        else if (count == 2)
+        {
+            ++numPairs;
+            highPair = std::max(highPair, val);
+        }
+        // No need for an `else` since the default case does nothing
+    }
+
+    // Decide category
+    if (fourKind) return {"four", quadValue = fourKind};
+    if (threeKind && numPairs == 1) return {"full", tripValue = threeKind};
+    if (threeKind) return {"trio", tripValue = threeKind};
+    if (numPairs == 2) return {"twop", highPair};
+    if (numPairs == 1) return {"pair", highPair};
+    return {"", 0};
 }
