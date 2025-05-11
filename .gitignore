@@ -1,0 +1,10 @@
+# Qt Creator build directories
+build-*/
+*.pro.user
+*.pro.user.*
+Makefile
+moc_*.cpp
+ui_*.h
+*.o
+*.obj
+*.exe
