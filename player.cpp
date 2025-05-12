@@ -14,7 +14,7 @@ void Player::incrementScore() {
     ++m_score;
 }
 
-// Swap
+// Swap helper
 void Player::decrementScore()
 {
     --m_score;

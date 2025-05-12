@@ -1,24 +1,21 @@
 #include "game.h"
-#include <QDebug> // Only for printing before GUI implementation
 #include <QMap>
 
 Game::Game() : m_player("You"), m_computer("Computer") {
-
 }
 
 void Game::startGame() {
-    m_deck.reset();       // Rebuilds the 52-card deck
-    m_deck.shuffle();     // Randomizes card order
+    m_deck.reset();
+    m_deck.shuffle();
 
-    m_player.resetScore();    // Set human score back to 0
-    m_computer.resetScore();  // Set computer score back to 0
+    m_player.resetScore();
+    m_computer.resetScore();
 
-    m_round = 0;              // No rounds played yet
-    m_roundWinner = nullptr;  // No winner yet
+    m_round = 0;
+    m_roundWinner = nullptr;
 }
 
-
-
+// Deals two hands of 5 cards each, returns false if deck does not have five cards remaining
 bool Game::dealNextRound()
 {
     if (m_deck.cardsRemaining() < 10)
@@ -70,17 +67,11 @@ bool Game::dealNextRound()
     } else if (cWins) {
         m_computer.incrementScore();
         m_roundWinner = &m_computer;
-    } else {                              // exact draw – favour human
+    } else { // exact draw – favour human -  incorrect need to change
         m_roundWinner = &m_player;
     }
 
-    // Prints for debugging
     ++m_round;
-    qDebug() << "Round" << m_round
-             << ":" << pBest << '(' << m_player.getName()   << ") vs."
-             << cBest << '(' << m_computer.getName() << ")  →"
-             << "Winner:" << m_roundWinner->getName();
-
     return true;
 }
 
@@ -109,15 +100,12 @@ const Player& Game::overallWinner() const
     return m_player;
 }
 
-// Swap
+// Almost identical to dealNextRound however only replaces cards and recalculates values
 void Game::rescoreAfterSwap()
 {
     // ── 1.  Recompute which hand is stronger ─────────────────────────
     auto strength = [](const QString& code) -> int {
-        static const QMap<QString,int> t = {{"high",1}, {"pair",2}, {"twop",3},
-                                             {"trio",4}, {"strt",5}, {"flsh",6},
-                                             {"full",7}, {"four",8}, {"stfl",9},
-                                             {"ryfl",10}};
+        static const QMap<QString,int> t = {{"high",1}, {"pair",2}, {"twop",3}, {"trio",4}, {"strt",5}, {"flsh",6}, {"full",7}, {"four",8}, {"stfl",9}, {"ryfl",10}};
         return t.value(code,0);
     };
 
@@ -136,39 +124,57 @@ void Game::rescoreAfterSwap()
         std::sort(cVals, cVals + 5);
 
         for (int i = 4; i >= 0; --i) {
-            if (pVals[i] > cVals[i]) { pWins = true; break; }
-            if (cVals[i] > pVals[i]) { cWins = true; break; }
+            if (pVals[i] > cVals[i]) {
+                pWins = true;
+                break;
+            }
+
+            if (cVals[i] > pVals[i]) {
+                cWins = true;
+                break;
+            }
         }
     };
 
 
     bool pWins = (pRank > cRank);
     bool cWins = (cRank > pRank);
-    if (!pWins && !cWins) highCardBreak(pWins,cWins);
+    if (!pWins && !cWins) {
+        highCardBreak(pWins,cWins);
+    }
 
     Player* newWinner = nullptr;
-    if (pWins)      newWinner = &m_player;
-    else if (cWins) newWinner = &m_computer;
-    else            newWinner = &m_player;   // draw → favour human
+    if (pWins) {
+        newWinner = &m_player;
+    } else if (cWins) {
+        newWinner = &m_computer;
+    } else {
+        newWinner = &m_player;
+    }
 
-    // ── 2.  If winner changed, fix the scores ────────────────────────
+    // This handles if the winner changes, either player becomes winner or loser based on their swaps
     if (newWinner != m_roundWinner) {
-        if (&m_player == m_roundWinner)  m_player.decrementScore();
-        if (&m_computer == m_roundWinner) m_computer.decrementScore();
-        if (newWinner == &m_player)      m_player.incrementScore();
-        if (newWinner == &m_computer)    m_computer.incrementScore();
+        if (m_roundWinner == &m_player) {
+            m_player.decrementScore();
+        }
+        if (m_roundWinner == &m_computer) {
+            m_computer.decrementScore();
+        }
+        if (newWinner == &m_player) {
+            m_player.incrementScore();
+        }
+        if (newWinner == &m_computer) {
+            m_computer.incrementScore();
+        }
         m_roundWinner = newWinner;
     }
 }
-
-
 
 
 int Game::currentRound() const
 {
     return m_round;
 }
-
 
 
 void Game::resetGame()

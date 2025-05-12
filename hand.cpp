@@ -5,6 +5,7 @@
 
 Hand::Hand() = default;
 
+// Draws fve new cards from deck
 void Hand::dealHand(Deck& deck) {
     for(int i = 0; i < 5; i++) {
         m_cards[i] = deck.dealCard();
@@ -30,23 +31,24 @@ void Hand::sortValue() {
     }
 
 
-// Group-aware sort: highest duplicate counts first, then higher value
-void Hand::sortGroup()
-{
-    // 1) Build a frequency table for each card
+// Sorts by how many duplicates each card has then by card value
+void Hand::sortGroup() {
+    // Builds a sort of frequency table, where freq[i] is equal to number of cards in hand matching m_card[i].getValue()
     int freq[5];
     for (int i = 0; i < 5; ++i) {
-        freq[i] = 1;
+        freq[i] = 1; // Inlucdes card itself
         for (int j = 0; j < 5; ++j) {
+            // If different index but same value then dupe
             if (j != i && m_cards[j].getValue() == m_cards[i].getValue()) {
                 ++freq[i];
             }
         }
     }
 
-    // 2) Selection-sort by (freq desc, value desc)
+    // Selection sort over the 5 cards
     for (int i = 0; i < 4; ++i) {
         int maxIndex = i;
+        // Compares duplicate counts
         for (int j = i + 1; j < 5; ++j) {
             bool higherFreq = freq[j] > freq[maxIndex];
             bool sameFreqButHigherValue =
@@ -63,16 +65,16 @@ void Hand::sortGroup()
     }
 }
 
-// Swap
-void Hand::swapCards(const std::vector<int>& idx, Deck& deck)
-{
-    // 1. Return the discards
-    for (int i : idx)
+// Replaces selected indices with fresh cards, keeps original order to stop weird hand graphic change
+void Hand::swapCards(const std::vector<int>& idx, Deck& deck) {
+    // Returns the cards player wants to swap to deck
+    for (int i : idx) {
         deck.insertCard(m_cards[i]);
+    }
 
-    deck.shuffle(); // randomise their future position
+    deck.shuffle(); // randomise deck
 
-    // 2. Deal replacements into the SAME slots
+    // Takes swap replcaements and puts in same spots
     for (int i : idx)
         m_cards[i] = deck.dealCard();
 
@@ -82,9 +84,8 @@ void Hand::swapCards(const std::vector<int>& idx, Deck& deck)
 }
 
 
-
-QString Hand::getBest() const
-{
+// Returns category code
+QString Hand::getBest() const {
     bool flush = isFlush();
     bool straight = isStraight();
 
@@ -98,17 +99,24 @@ QString Hand::getBest() const
 
     if (straight && flush)
     {
-        // Royal Flush if sequence ends in Ace (14) and starts at 10
+        // Royal Flush if sequence ends in ace and starts with 10
         bool isRoyal = (high == 14 && low == 10);
-        return isRoyal ? "ryfl" : "stfl";
+        if (isRoyal) {
+            return "ryfl";
+        }
+        return "stfl";
     }
 
-    // Look at duplicate structure
     auto dup = classifyDuplicates();
-    if (!dup.first.isEmpty()) return dup.first;
-
-    if (flush) return "flsh";
-    if (straight) return "strt";
+    if (!dup.first.isEmpty()) {
+        return dup.first;
+    }
+    if (flush) {
+        return "flsh";
+    }
+    if (straight) {
+        return "strt";
+    }
     return "high";
 }
 
@@ -118,58 +126,54 @@ const std::array<Card,5>& Hand::cards() const {
 }
 
 
-bool Hand::isFlush() const
-{
-    // 1) Get the suit of the first card
+bool Hand::isFlush() const {
+    // Gets first cards suit for comparison
     QString firstSuit = m_cards[0].getSuit();
 
-    // 2) Compare every other card’s suit to that
+    // All cards compared to that suit
     for (int i = 1; i < 5; ++i) {
         if (m_cards[i].getSuit() != firstSuit) {
-            // As soon as one differs, it's not a flush
+            // With one card differeing we know it is not a flush
             return false;
         }
     }
-
-    // If we never find a difference, all suits match → flush
+    // Flush
     return true;
 }
 
 
-bool Hand::isStraight() const
-{
+bool Hand::isStraight() const {
     // Make a local copy of the five values and sort them
     int straightCheck[5];
-    for (int i = 0; i < 5; ++i) straightCheck[i] = m_cards[i].getValue();
+    for (int i = 0; i < 5; ++i) {
+        straightCheck[i] = m_cards[i].getValue();
+    }
     std::sort(straightCheck, straightCheck + 5);
 
-    // Normal consecutistraightChecke test (works for 10-J-Q-K-A too)
     bool regular = true;
     for (int i = 1; i < 5; ++i)
         if (straightCheck[i] != straightCheck[0] + i) regular = false;
     if (regular) return true;
 
-    // Hard check for wraparound
+    // Hard check for wraparound, may be better way but oh well
     bool wraparound = straightCheck[0] == 2 && straightCheck[1] == 3 && straightCheck[2] == 4 && straightCheck[3] == 5 && straightCheck[4] == 14;
     return wraparound;
 }
 
 
-
-std::pair<QString,int> Hand::classifyDuplicates() const
-{
-    // Build frequency map  value → count
+// Helper for duplciates
+std::pair<QString,int> Hand::classifyDuplicates() const {
     std::map<int,int> freq;
     for (const Card& c : m_cards)
         ++freq[c.getValue()];
 
     // Gather stats
-    int numPairs   = 0;
-    int threeKind  = 0;
-    int fourKind   = 0;
-    int highPair   = 0;     // highest value that forms a pair
-    int tripValue  = 0;     // value that forms the trip
-    int quadValue  = 0;     // value that forms the quad
+    int numPairs = 0;
+    int threeKind = 0;
+    int fourKind = 0;
+    int highPair = 0; // highest value that forms a pair
+    int tripValue = 0; // value that forms the trip
+    int quadValue = 0; // value that forms the quad
 
     for (auto [val, count] : freq)
     {
@@ -186,14 +190,29 @@ std::pair<QString,int> Hand::classifyDuplicates() const
             ++numPairs;
             highPair = std::max(highPair, val);
         }
-        // No need for an `else` since the default case does nothing
     }
 
     // Decide category
-    if (fourKind) return {"four", quadValue = fourKind};
-    if (threeKind && numPairs == 1) return {"full", tripValue = threeKind};
-    if (threeKind) return {"trio", tripValue = threeKind};
-    if (numPairs == 2) return {"twop", highPair};
-    if (numPairs == 1) return {"pair", highPair};
+    if (fourKind) {
+        quadValue = fourKind;
+        return {"four", quadValue};
+    }
+
+    if (threeKind) {
+        tripValue = threeKind;
+        if (numPairs == 1) {
+            return {"full", tripValue};
+        }
+        return {"trio", tripValue};
+    }
+
+    if (numPairs == 2) {
+        return {"twop", highPair};
+    }
+
+    if (numPairs == 1) {
+        return {"pair", highPair};
+    }
+
     return {"", 0};
 }
