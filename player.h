@@ -5,7 +5,7 @@
 #include "hand.h"
 
 
-// Handles player logic
+// Handles player, score and hand
 class Player
 {
 public:
@@ -13,19 +13,16 @@ public:
     explicit Player(const QString& name = "Player");
 
     // Scoring functions
-    void resetScore();        // set score to 0
-    void incrementScore();    // +1 to score
-    int  getScore() const;    // current score
-
-    // Swap
+    void resetScore();
+    void incrementScore();
     void decrementScore();
 
-    // Gets player type
     QString getName() const;  // Computer / User etc
+    int getScore() const;
 
     // Hand accessers
-    Hand& hand();       // non-const ref for game logic to mutate
-    const Hand& hand() const; // const ref for read-only UI display
+    Hand& hand();
+    const Hand& hand() const;
 
 private:
     QString m_name;
@@ -33,4 +30,4 @@ private:
     Hand m_hand;
 };
 
-#endif // PLAYER_H
+#endif

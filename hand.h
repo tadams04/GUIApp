@@ -8,12 +8,11 @@
 
 // Represents a five card poker hand, has deck dealing, sorting and hand evaluation, and advanced spec
 
-class Hand
-{
+class Hand {
 public:
     Hand();
 
-    // deal exactly 5 cards from deck into hand (-5, +5)
+    // Deals exactly 5 cards from deck
     void dealHand(Deck& deck);
 
     // Sorts cards in ascending order for card comparisons
@@ -22,7 +21,7 @@ public:
     // Sort cards by group then by value, e.g. a pair of twos is sorted into the pairs group then all pairs sorted by value
     void sortGroup();
 
-    // Swap
+    // Replaces selected cards from player hand
     void swapCards(const std::vector<int>& idx, Deck& deck);
 
 
@@ -37,10 +36,10 @@ public:
 private:
     std::array<Card,5> m_cards;
 
-    // Internal evaluation helpers (not exposed in spec but used by getBest):
+    // Useful helpers for getBest fucntion
     bool isFlush() const;
     bool isStraight() const;
-    std::pair<QString,int> classifyDuplicates() const;  // e.g. returns {"twop", highestPairValue}
+    std::pair<QString,int> classifyDuplicates() const;
 
 };
 

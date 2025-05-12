@@ -1,10 +1,7 @@
 #include "card.h"
 #include <array>
 
-Card::Card(int value, Suit suit)
-    : m_value(value), m_suit(suit) {}
-
-/* ---------- simple getters ---------- */
+Card::Card(int value, Suit suit) : m_value(value), m_suit(suit) {}
 
 int Card::getValue() const
 {

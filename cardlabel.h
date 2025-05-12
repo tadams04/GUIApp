@@ -4,17 +4,17 @@
 #include <QLabel>
 #include "card.h"
 
-class CardLabel : public QLabel
-{
+// QLabel to store card and click
+class CardLabel : public QLabel {
     Q_OBJECT
 public:
     explicit CardLabel(QWidget *parent = nullptr);
 
-    void setCard(const Card &c, const QString &prefix = ":/cards");
+    void setCard(const Card &c, const QString &prefix = ":/cards"); // updates pixmap
     const Card &card() const { return m_card; }
 
 signals:
-    void clicked(CardLabel *);          // emitted on mouse click
+    void clicked(CardLabel *); // emitted on mouse click
 
 protected:
     void mousePressEvent(QMouseEvent *ev) override;

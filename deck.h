@@ -5,48 +5,33 @@
 #include <vector>
 #include <random>
 
-/**
- * Represents a standard 52-card deck that can be
- * created, shuffled, and dealt from.
- */
-class Deck
-{
+
+// A 52 card deck that can shuffle, deal and accept returned cards and output for swaps
+class Deck {
 public:
     Deck();
 
-    /**
-     * Populate m_cards with all 52 unique Card objects.
-     */
+    // Creates 52 cards, 4 suites, 13 unique per suite
     void createDeck();
 
-    /**
-     * Randomly shuffle the deck using a Mersenne Twister RNG.
-     */
+
     void shuffle();
 
-    /**
-     * Deal (pop) one card from the end; assumes non-empty deck.
-     * @return the dealt Card.
-     */
+    // Pop card from back
     Card dealCard();
 
-    /**
-     * Number of cards left in the deck.
-     * @return size of the deck.
-     */
+
     size_t cardsRemaining() const;
 
-    // Swap
+    // Push returned card
     void insertCard(const Card& c);
 
-    /**
-     * Reset to a full, shuffled deck.
-     */
+    // Recreates deck and reshuffles
     void reset();
 
 private:
     std::vector<Card> m_cards;
-    std::mt19937 m_rng;  // Random Number gen
+    std::mt19937 m_rng;
 };
 
-#endif // DECK_H
+#endif

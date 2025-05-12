@@ -4,27 +4,23 @@
 #include "player.h"
 #include "deck.h"
 
-class Game
-{
+// Controls game flow and scoring
+class Game {
 public:
     Game();
 
-    void startGame(); // shuffle, reset scores, round = 0;
-    bool dealNextRound(); // Returns false if no more rounds
+    void startGame(); // Resets deck and shuffles
+    bool dealNextRound(); // Returns false if no more rounds (cards in deck < 10 left)
 
-    // Swap
-    void playerSwap(const std::vector<int>& idx);     // forward
-
+    void playerSwap(const std::vector<int>& idx);
+    bool m_swapDone = false; // Has player swapped this round?
+    void rescoreAfterSwap(); // Recompute winner & scores
 
     const Player& winnerOfRound() const;
     const Player& overallWinner() const;
     int currentRound() const;
 
     void resetGame();
-
-    bool m_swapDone = false; // has human swapped this round?
-    void rescoreAfterSwap(); // recompute winner & scores
-
 
 
     const Player& player() const {
@@ -52,4 +48,4 @@ private:
 };
 
 
-#endif // GAME_H
+#endif
