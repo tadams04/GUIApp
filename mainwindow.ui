@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1600</width>
+    <height>1200</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,67 +25,82 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>20</y>
+      <x>230</x>
+      <y>80</y>
       <width>701</width>
       <height>531</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
     <widget class="QWidget" name="gridLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>30</y>
-       <width>634</width>
-       <height>372</height>
+       <x>10</x>
+       <y>0</y>
+       <width>668</width>
+       <height>462</height>
       </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>90</height>
+      </size>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <property name="horizontalSpacing">
        <number>-1</number>
       </property>
-      <item row="1" column="3">
-       <widget class="CardLabel" name="card24">
+      <property name="verticalSpacing">
+       <number>100</number>
+      </property>
+      <item row="1" column="4">
+       <widget class="CardLabel" name="card25">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
-         <string>c24</string>
+         <string>c25</string>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="CardLabel" name="card12">
+      <item row="0" column="0">
+       <widget class="CardLabel" name="card11">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
-         <string>c12</string>
+         <string>c11</string>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="CardLabel" name="card21">
+      <item row="0" column="4">
+       <widget class="CardLabel" name="card15">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
-         <string>c21</string>
+         <string>c15</string>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -96,8 +111,8 @@
        <widget class="CardLabel" name="card23">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
@@ -112,8 +127,8 @@
        <widget class="CardLabel" name="card14">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
@@ -124,16 +139,16 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="CardLabel" name="card11">
+      <item row="1" column="3">
+       <widget class="CardLabel" name="card24">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
-         <string>c11</string>
+         <string>c24</string>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -144,8 +159,8 @@
        <widget class="CardLabel" name="card22">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
@@ -156,42 +171,48 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="CardLabel" name="card12">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>c12</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="CardLabel" name="card21">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>c21</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <widget class="CardLabel" name="card13">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>180</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="text">
          <string>c13</string>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="CardLabel" name="card25">
-        <property name="minimumSize">
-         <size>
-          <width>120</width>
-          <height>180</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>c25</string>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="CardLabel" name="card15">
-        <property name="text">
-         <string>c15</string>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -203,17 +224,17 @@
     <widget class="QWidget" name="horizontalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>440</y>
+       <x>50</x>
+       <y>480</y>
        <width>571</width>
        <height>51</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1,2">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0">
       <item>
        <widget class="QPushButton" name="StartBtn">
         <property name="text">
-         <string>Start</string>
+         <string>Deal</string>
         </property>
        </widget>
       </item>
@@ -250,13 +271,55 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>50</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Computer</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>340</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Player</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="SwapBtn">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>290</y>
+      <width>101</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Swap</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1600</width>
      <height>43</height>
     </rect>
    </property>
