@@ -14,6 +14,14 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget {
+	background-color: &quot;#06402B&quot;
+}</string>
+   </property>
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
@@ -37,7 +45,7 @@
        <number>-1</number>
       </property>
       <item row="1" column="3">
-       <widget class="QLabel" name="label_6">
+       <widget class="CardLabel" name="card24">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -53,7 +61,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="label_4">
+       <widget class="CardLabel" name="card12">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -69,7 +77,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="CardLabel" name="card21">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -85,7 +93,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLabel" name="label_5">
+       <widget class="CardLabel" name="card23">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -101,7 +109,7 @@
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QLabel" name="label_8">
+       <widget class="CardLabel" name="card14">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -117,7 +125,7 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="CardLabel" name="card11">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -133,7 +141,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLabel" name="label_3">
+       <widget class="CardLabel" name="card22">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -149,7 +157,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QLabel" name="label_7">
+       <widget class="CardLabel" name="card13">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -165,7 +173,7 @@
        </widget>
       </item>
       <item row="1" column="4">
-       <widget class="QLabel" name="label_9">
+       <widget class="CardLabel" name="card25">
         <property name="minimumSize">
          <size>
           <width>120</width>
@@ -181,7 +189,7 @@
        </widget>
       </item>
       <item row="0" column="4">
-       <widget class="QLabel" name="label_10">
+       <widget class="CardLabel" name="card15">
         <property name="text">
          <string>c15</string>
         </property>
@@ -255,6 +263,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CardLabel</class>
+   <extends>QLabel</extends>
+   <header>cardlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

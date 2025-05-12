@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QVector>
+
+#include "cardlabel.h"
+#include "game.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -12,10 +16,21 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void onBtnStart();            // Start / Deal
+    void onBtnNext();             // Next Round
+    void onCardClicked(CardLabel*);
+
 private:
-    Ui::MainWindow *ui;
+    void refresh();               // draw cards, score, status
+
+    Ui::MainWindow   *ui;
+    Game              m_game;
+    QVector<CardLabel*> m_slots;  // 10 card widgets in grid order
+    QVector<CardLabel*> m_selected; // for future swap feature
 };
+
 #endif // MAINWINDOW_H

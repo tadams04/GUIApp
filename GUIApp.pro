@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     card.cpp \
+    cardlabel.cpp \
     deck.cpp \
     game.cpp \
     hand.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     card.h \
+    cardlabel.h \
     deck.h \
     game.h \
     hand.h \
@@ -32,3 +34,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    cards.qrc
