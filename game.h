@@ -12,6 +12,10 @@ public:
     void startGame(); // shuffle, reset scores, round = 0;
     bool dealNextRound(); // Returns false if no more rounds
 
+    // Swap
+    void playerSwap(const std::vector<int>& idx);     // forward
+
+
     const Player& winnerOfRound() const;
     const Player& overallWinner() const;
     int currentRound() const;

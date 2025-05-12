@@ -36,6 +36,9 @@ public:
      */
     size_t cardsRemaining() const;
 
+    // Swap
+    void insertCard(const Card& c);
+
     /**
      * Reset to a full, shuffled deck.
      */

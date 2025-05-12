@@ -38,6 +38,11 @@ size_t Deck::cardsRemaining() const
     return m_cards.size();
 }
 
+// Swap
+void Deck::insertCard(const Card& c) {
+    m_cards.push_back(c);
+}
+
 void Deck::reset()
 {
     createDeck();

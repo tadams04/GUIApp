@@ -19,6 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->NextBtn,  &QPushButton::clicked,
             this,          &MainWindow::onBtnNext);
 
+    // Swap
+    connect(ui->SwapBtn, &QPushButton::clicked,
+            this,         &MainWindow::onBtnSwap);
+
+    ui->SwapBtn->setEnabled(false);
+
+
     /* optional: card click signal (does nothing yet) */
     for (CardLabel *lbl : m_slots)
         connect(lbl, &CardLabel::clicked,
@@ -52,15 +59,68 @@ void MainWindow::onBtnNext()
     refresh();
 }
 
-/* ---------- Card clicked ---------- */
-void MainWindow::onCardClicked(CardLabel *)
+// Swap
+void MainWindow::onCardClicked(CardLabel *lbl)
 {
-    /* original version: no swapping, nothing to do */
+    // A) Figure out which label
+    int guiIndex = std::find(m_slots.begin(), m_slots.end(), lbl)
+                   - m_slots.begin();
+
+    // Ignore clicks on the computer row
+    if (guiIndex < 5) return;
+
+    int handIdx = guiIndex - 5;                 // 0-4
+
+    // B) Only allow in rounds 1-4 and max 3 cards
+    if (m_game.currentRound() > 4) return;
+    bool already = m_selected[handIdx];
+
+    if (!already && m_queue.size() == 3) return;   // cap reached
+
+    // C) Toggle highlight
+    m_selected[handIdx] = !already;
+    if (m_selected[handIdx]) {
+        m_queue.push_back(handIdx);
+        lbl->setStyleSheet("border: 2px solid gold;");
+    } else {
+        m_queue.erase(std::remove(m_queue.begin(), m_queue.end(), handIdx),
+                      m_queue.end());
+        lbl->setStyleSheet("");                  // clear border
+    }
+
+    // D) Enable/disable Swap button
+    ui->SwapBtn->setEnabled(!m_queue.empty());
 }
+
+
+void MainWindow::onBtnSwap()
+{
+    // hand over the indices
+    m_game.playerSwap(m_queue);
+
+    // wipe local state & UI
+    m_queue.clear();
+    m_selected.fill(false);
+    ui->SwapBtn->setEnabled(false);
+    for (int i = 5; i < 10; ++i)          // clear all borders
+        m_slots[i]->setStyleSheet("");
+
+    refresh();                            // redraw both hands & labels
+}
+
+
 
 /* ---------- Paint everything ------ */
 void MainWindow::refresh()
 {
+    m_selected.fill(false);
+    m_queue.clear();
+    ui->SwapBtn->setEnabled(false);
+    for (int i = 5; i < 10; ++i)
+        m_slots[i]->setStyleSheet("");
+
+
+
     const QString prefix = ":/cards";     // resource prefix
 
     /* computer row */

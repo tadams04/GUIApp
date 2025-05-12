@@ -22,6 +22,10 @@ public:
     // Sort cards by group then by value, e.g. a pair of twos is sorted into the pairs group then all pairs sorted by value
     void sortGroup();
 
+    // Swap
+    void swapCards(const std::vector<int>& idx, Deck& deck);
+
+
     // Returns best poker category from the ten specified (High -> Low:
     // "ryfl", "stfl", "four", "full", "strt", "trio", "twop", "pair", "high"
     QString getBest() const;

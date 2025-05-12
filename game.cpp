@@ -81,6 +81,11 @@ bool Game::dealNextRound()
 }
 
 
+void Game::playerSwap(const std::vector<int>& idx)
+{
+    m_player.hand().swapCards(idx, m_deck);
+}
+
 
 
 const Player& Game::winnerOfRound() const

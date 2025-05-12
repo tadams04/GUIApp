@@ -23,6 +23,8 @@ private slots:
     void onBtnStart();            // “Start / Deal”
     void onBtnNext();             // “Next Round”
     void onCardClicked(CardLabel*);
+    void onBtnSwap();
+
 
 private:
     void refresh();               // draw cards, score, status
@@ -30,6 +32,11 @@ private:
     Ui::MainWindow      *ui;
     Game                 m_game;
     QVector<CardLabel*>  m_slots; // 10 card widgets, computer first row
+
+    // Swap
+    std::array<bool,5> m_selected {{false}};   // which player cards are lit
+    std::vector<int>   m_queue;                // actual indices to send to swap
+
 };
 
 #endif // MAINWINDOW_H
