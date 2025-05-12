@@ -70,15 +70,15 @@ void Hand::swapCards(const std::vector<int>& idx, Deck& deck)
     for (int i : idx)
         deck.insertCard(m_cards[i]);
 
-    deck.shuffle();                 // randomise their future position
+    deck.shuffle(); // randomise their future position
 
     // 2. Deal replacements into the SAME slots
     for (int i : idx)
         m_cards[i] = deck.dealCard();
 
-    // 3. Keep helper invariants up-to-date
-    sortValue();
-    sortGroup();
+    // Caused index movement on swap
+    // sortValue();
+    // sortGroup();
 }
 
 

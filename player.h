@@ -17,6 +17,9 @@ public:
     void incrementScore();    // +1 to score
     int  getScore() const;    // current score
 
+    // Swap
+    void decrementScore();
+
     // Gets player type
     QString getName() const;  // Computer / User etc
 

@@ -14,6 +14,13 @@ void Player::incrementScore() {
     ++m_score;
 }
 
+// Swap
+void Player::decrementScore()
+{
+    --m_score;
+}
+
+
 int  Player::getScore() const {
     return m_score;
 }

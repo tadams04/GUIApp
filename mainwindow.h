@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QVector>
+#include <array>
 
 #include "cardlabel.h"
 #include "game.h"
@@ -34,6 +35,7 @@ private:
     QVector<CardLabel*>  m_slots; // 10 card widgets, computer first row
 
     // Swap
+    bool m_swapDoneThisRound = false;
     std::array<bool,5> m_selected {{false}};   // which player cards are lit
     std::vector<int>   m_queue;                // actual indices to send to swap
 

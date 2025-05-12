@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 
 #include <QPixmap>
+#include <algorithm>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,6 +48,7 @@ void MainWindow::onBtnStart()
     m_game.startGame();
     m_game.dealNextRound();
 
+    m_swapDoneThisRound = false;
     ui->NextBtn->setEnabled(true);
     refresh();
 }
@@ -56,12 +59,15 @@ void MainWindow::onBtnNext()
     if (!m_game.dealNextRound())          // deck < 10 → stop
         ui->NextBtn->setEnabled(false);
 
+    m_swapDoneThisRound = false;
     refresh();
 }
 
 // Swap
 void MainWindow::onCardClicked(CardLabel *lbl)
 {
+    if (m_swapDoneThisRound) return;
+
     // A) Figure out which label
     int guiIndex = std::find(m_slots.begin(), m_slots.end(), lbl)
                    - m_slots.begin();
@@ -95,8 +101,9 @@ void MainWindow::onCardClicked(CardLabel *lbl)
 
 void MainWindow::onBtnSwap()
 {
-    // hand over the indices
     m_game.playerSwap(m_queue);
+    m_game.rescoreAfterSwap();
+    m_swapDoneThisRound = true;
 
     // wipe local state & UI
     m_queue.clear();

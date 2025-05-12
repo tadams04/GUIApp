@@ -22,6 +22,10 @@ public:
 
     void resetGame();
 
+    bool m_swapDone = false; // has human swapped this round?
+    void rescoreAfterSwap(); // recompute winner & scores
+
+
 
     const Player& player() const {
         return m_player;
